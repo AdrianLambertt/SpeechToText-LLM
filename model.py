@@ -64,7 +64,7 @@ class SpeechRecognition(nn.Module):
         self.dropout2 = nn.Dropout(dropout)
         self.final_fc = nn.Linear(hidden_size, num_classes)
 
-    def __init_hidden(self, batch_size):
+    def _init_hidden(self, batch_size):
         n, hs = self.num_layers, self.hidden_size
         return (torch.zeros(n*1, batch_size, hs),
                 torch.zeros(n*1, batch_size, hs))
