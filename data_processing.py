@@ -65,7 +65,7 @@ class SpecAugment(nn.Module):
         return self.policy2(x)
 
 
-class data(torch.utils.data.Dataset):
+class Data(torch.utils.data.Dataset):
 
     #Preset params that can be overwritten
     parameters = {
@@ -127,4 +127,21 @@ class data(torch.utils.data.Dataset):
         return self.data.describe()
     
 
-    #TODO not sure if collate_fn_padd is nessecary? will keep out for now.
+    #Pads data to be of equal length for batch creation
+    #Padded and aligned data enables efficient batch processing during training/evaluation
+def collate_fn_padd(data):
+    spectograms, labels, input_lengths, label_lengths = []
+    for (spectogram, label, input_length, label_length) in data:
+        if spectogram is None:
+            continue
+
+        spectograms.append(spectogram.squeeze(0).transpose(0,1))
+        labels.append(torch.Tensor(label))
+        input_lengths.append(input_length)
+        label_lengths.append(label_length)
+
+    spectograms = nn.utils.rnn.pad_sequence(spectograms, batch_first=True).unsqueeze(1).transpose(2, 3)
+    labels = nn.utils.rnn.pad_sequence(labels, batch_first=True)
+    input_lengths = input_lengths
+    label_lengths = label_lengths
+    return spectograms, labels, input_lengths, label_lengths
