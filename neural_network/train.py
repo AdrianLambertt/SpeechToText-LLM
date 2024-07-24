@@ -50,6 +50,8 @@ class SpeechModel(L.LightningModule):
                           num_workers= self.args.data_workers, collate_fn= collate_fn_padd, pin_memory=True)
     
 
+    # The function processes a batch of data through the model,
+    # computes the output then returns the loss. 
     def step(self, batch):
         spectograms, labels, input_lengths, label_lengths = batch
         bs = spectograms.shape[0] #Batch size

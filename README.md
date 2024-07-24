@@ -4,8 +4,8 @@
 **This is a learning experience to have a more hands-on experience with coding neural networks in python, instead of MATLAB.**
 
 ## Acknowledgements
-This project has been heavily inspired by [LearnedVector](https://github.com/LearnedVector) on their [github](https://github.com/LearnedVector/A-Hackers-AI-Voice-Assistant). Their implementation served as a guide while I was learning Pytorch.  
-Youtube video associated to the above repository: [youtube video](https://www.youtube.com/watch?v=YereI6Gn3bM)
+This project has been heavily inspired by [LearnedVector](https://github.com/LearnedVector) on their [GitGub](https://github.com/LearnedVector/A-Hackers-AI-Voice-Assistant). Their implementation served as a guide while I was learning Pytorch.  
+[Youtube video associated to the above repository](https://www.youtube.com/watch?v=YereI6Gn3bM)
 
 I have adapted and modified parts of the original code to fit my own style and project requirements. Specifically, changes have been made to train.py and data_processing.  
 
