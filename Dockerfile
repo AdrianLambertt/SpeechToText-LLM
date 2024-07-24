@@ -4,3 +4,5 @@ WORKDIR /SpeechToText-LLM
 COPY . /SpeechToText-LLM
 
 RUN pip install -r requirements.txt
+
+ENTRYPOINT [ "Python3", "/neural_network/train.py"]

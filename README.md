@@ -18,7 +18,7 @@ I have adapted and modified parts of the original code to fit my own style and p
 
 ### Setup
 As a prequisite to running the network you will need to first run the `setup_Scripts/mozillaVoice_create_jsons.py` to change the data to the correct format. The Mimic Recording Studio can also be used to create own generated audio files for better training, if this is used you will need to also run `mimicRecording_create_jsons.py`.  
-The project has been designed to run as a Docker container, with the entrypoint for running the network is `train.py`. This file will require arguments, such as `python3 train.py --train_file /path/to/folder --valid_file /path/to/folder --root_dir /path/to/folder`
+The project has been designed to work with Docker, but can become tricky when training on larger datasets. Techniques like volume mounting or locally storing data which can be transferred to the container would be a suitable workaround. The entrypoint for running the network is `train.py`. This file will require arguments, such as `python3 train.py --train_file /path/to/folder --valid_file /path/to/folder --root_dir /path/to/folder`
 
 
 ### Libraries used
