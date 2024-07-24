@@ -112,7 +112,7 @@ if __name__ == "__main__":
     parser.add_argument('--valid_every', default=1000, required=False, type=int, help='Validation checks after N batches')
 
     # Directory and Path for models and logs
-    parser.add_argument('--root_dir', default=os.getcwd, required=False, type=str, help='The models Checkpoint location')
+    parser.add_argument('--root_dir', required=True, type=str, help='The models Checkpoint location')
     parser.add_argument('--load_model', default=False, required=False, type=bool, help='Restore model from last checkpoint')
     parser.add_argument('--logdir', default='tb_logs', required=False, type=str, help='Path to save logs')
 
