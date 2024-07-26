@@ -14,8 +14,8 @@ I have adapted and modified parts of the original code to fit my own style and p
 ## Dependencies
 + Python3
 + [kenlm](https://github.com/kpu/kenlm) language model used to more accurately predict sentances/speech patterns.
-+ [ctcdecode](https://github.com/parlance/ctcdecode) Rescoring algorithm using the language model to build outputs (beams) with probabilites of each word. `Red a book: 35%` VS `Read a book: 0.95%`
-= [FFMPEG](https://ffmpeg.org/download.html) Required for audio translation from .mp3 to .wav. **MUST BE ADDED TO PATH**
++ [ctcdecode](https://github.com/parlance/ctcdecode) Rescoring algorithm using the language model to build outputs (beams) with probabilites of each word. `Red a book: 35%` VS `Read a book: 0.95%`  
++ [FFMPEG](https://ffmpeg.org/download.html) Required for audio translation from .mp3 to .wav. **MUST BE ADDED TO PATH**
 
 ### Setup
 As a prequisite to running the network you will need to first run the `setup_Scripts/mozillaVoice_create_jsons.py` to change the data to the correct format. The Mimic Recording Studio can also be used to create own generated audio files for better training, if this is used you will need to also run `mimicRecording_create_jsons.py`.  

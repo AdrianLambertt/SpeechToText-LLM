@@ -13,13 +13,13 @@ def main(args):
     directory = os.path.dirname(args.file_path)
     percent = args.percent
     
-    with open(args.file_path) as f:
+    with open(args.file_path, encoding='utf-8', errors='ignore') as f:
         length = sum(1 for line in f)
     
     
     
     
-    with open(args.file_path, newline='') as csvfile: 
+    with open(args.file_path, newline='', encoding='utf-8', errors='ignore') as csvfile: 
         reader = csv.DictReader(csvfile, delimiter='\t')
         index = 1
         if(args.convert):
@@ -49,8 +49,8 @@ def main(args):
     random.shuffle(data)
 
     print("creating JSON's")
-    f = open(args.save_json_path +"\\"+ "train.json", "w")
-    with open(args.save_json_path +"\\"+ 'train.json','w') as f:
+    f = open(args.save_json_path +"\\"+ "train.json", "a")
+    with open(args.save_json_path +"\\"+ 'train.json','a') as f:
         i=0
         while(i< int(len(data) - (len(data)/percent) )):
             r=data[i]
@@ -58,8 +58,8 @@ def main(args):
             f.write(line + "\n")
             i = i+1
     
-    f = open(args.save_json_path +"\\"+ "test.json", "w")
-    with open(args.save_json_path +"\\"+ 'test.json','w') as f:
+    f = open(args.save_json_path +"\\"+ "test.json", "a")
+    with open(args.save_json_path +"\\"+ 'test.json','a') as f:
         i= int(len(data) - (len(data)/percent))
         while(i< len(data)):
             r=data[i]
