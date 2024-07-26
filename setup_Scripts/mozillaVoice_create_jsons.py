@@ -1,6 +1,7 @@
 # Script edited from LearnedVector's A-Hackers-Voice-Assistant
 # Utility script to convert commonvoice into wav and create the training and test json files from mozilla voice database.
 
+import os
 import argparse
 import json
 import random
@@ -9,7 +10,7 @@ from pydub import AudioSegment
 
 def main(args):
     data = []
-    directory = args.file_path.rpartition('/')[0]
+    directory = os.path.dirname(args.file_path)
     percent = args.percent
     
     with open(args.file_path) as f:
@@ -22,33 +23,34 @@ def main(args):
         reader = csv.DictReader(csvfile, delimiter='\t')
         index = 1
         if(args.convert):
-            print(str(length) + "files found")
+            print(str(length) + " files found")
         for row in reader:  
             file_name = row['path']
             filename = file_name.rpartition('.')[0] + ".wav"
             text = row['sentence']
             if(args.convert):
                 data.append({
-                "key": directory + "/clips/" + filename,
+                "key": directory +"\\clips\\" + filename,
                 "text": text
                 })
 
                 print("converting file " + str(index) + "/" + str(length) + " to wav", end="\r")
-                src = directory + "/clips/" + file_name
-                dst = directory + "/clips/" + filename
+                src = directory + "\\clips\\" + file_name
+                dst = directory + "\\clips\\" + filename
                 sound = AudioSegment.from_mp3(src)
                 sound.export(dst, format="wav")
                 index = index + 1
             else:
                 data.append({
-                "key": directory + "/clips/" + file_name,
+                "key": directory + "\\clips\\" + file_name,
                 "text": text
                 })
                 
     random.shuffle(data)
 
     print("creating JSON's")
-    with open(args.save_json_path +"/"+ 'train.json','w') as f:
+    f = open(args.save_json_path +"\\"+ "train.json", "w")
+    with open(args.save_json_path +"\\"+ 'train.json','w') as f:
         i=0
         while(i< int(len(data) - (len(data)/percent) )):
             r=data[i]
@@ -56,7 +58,8 @@ def main(args):
             f.write(line + "\n")
             i = i+1
     
-    with open(args.save_json_path +"/"+ 'test.json','w') as f:
+    f = open(args.save_json_path +"\\"+ "test.json", "w")
+    with open(args.save_json_path +"\\"+ 'test.json','w') as f:
         i= int(len(data) - (len(data)/percent))
         while(i< len(data)):
             r=data[i]
