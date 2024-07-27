@@ -11,9 +11,8 @@ from pydub import AudioSegment
 def main(args):
     data = []
     directory = os.path.dirname(args.train_file) # Assumes train & test location are in same dir
-    percent = args.percent
     
-    
+
     with open(args.train_file, encoding='utf-8', errors='ignore') as f:
         train_length = sum(1 for line in f)
     
