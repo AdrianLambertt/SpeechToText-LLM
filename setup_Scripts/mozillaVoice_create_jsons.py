@@ -32,32 +32,33 @@ def main(args):
             dst = directory + "\\clips\\" + filename
             
             if(args.logging):
-                print("###### Source: " + src + "exists? " + str(os.path.exists(src)) + " Destination: " + dst + "exists? " + str(os.path.exists(dst)))
+                print("###### Source: " + src + " exists? " + str(os.path.exists(src)) + " Destination: " + dst + " exists? " + str(os.path.exists(dst)))
 
             
-            # If convert and path exists, convert. Else add to corruption. 
-            # If not convert, pass & add to data.
-            if(args.convert):
-                if os.path.exists(src):
-                    print("converting file " + str(index) + "/" + str(train_length) + " to wav", end="\r")
+            # If src exists, convert. Else add to corruption. 
+            # If dst exists, pass & add to data.
+            if os.path.exists(src):
+                print("converting file " + str(index) + "/" + str(train_length) + " to wav", end="\r")
 
-                    sound = AudioSegment.from_mp3(src)
-                    sound.export(dst, format="wav")
-                    index = index + 1
+                sound = AudioSegment.from_mp3(src)
+                sound.export(dst, format="wav")
+                index = index + 1
 
-                    data.append({
-                    "key": directory +"\\clips\\" + filename,
-                    "text": text
-                    })
-                else:
-                    print("###### Source: " + src + "exists? " + str(os.path.exists(src)) + " Destination: " + dst + "exists? " + str(os.path.exists(dst)))
-                    corrupted +=1
-
-            else:
                 data.append({
-                "key": directory + "\\clips\\" + file_name,
+                "key": dst,
                 "text": text
                 })
+
+            elif os.path.exists(dst):
+                data.append({
+                "key": dst,
+                "text": text
+                })
+            
+            else:
+                print("###### Source: " + src + " exists? " + str(os.path.exists(src)) + " Destination: " + dst + " exists? " + str(os.path.exists(dst)))
+                corrupted +=1
+
 
 
 
@@ -82,29 +83,35 @@ def main(args):
             src = directory + "\\clips\\" + file_name
             dst = directory + "\\clips\\" + filename
 
-            
-            if(args.convert):
-                if os.path.exists(src):
-                    print("converting file " + str(index) + "/" + str(test_length) + " to wav", end="\r")
 
-                    sound = AudioSegment.from_mp3(src)
-                    sound.export(dst, format="wav")
-                    index = index + 1
+        # If src exists, convert. Else add to corruption. 
+        # If dst exists, pass & add to data.
+        if(args.logging):
+            print("###### Source: " + src + " exists? " + str(os.path.exists(src)) + " Destination: " + dst + " exists? " + str(os.path.exists(dst)))
 
-                    data.append({
-                    "key": directory +"\\clips\\" + filename,
-                    "text": text
-                    })
-                else:
-                    print("###### Source: " + src + "exists? " + str(os.path.exists(src)) + " Destination: " + dst + "exists? " + str(os.path.exists(dst)))
-                    corrupted +=1
+            if os.path.exists(src):
+                print("converting file " + str(index) + "/" + str(test_length) + " to wav", end="\r")
 
-            else:
+                sound = AudioSegment.from_mp3(src)
+                sound.export(dst, format="wav")
+                index = index + 1
+
                 data.append({
-                "key": directory + "\\clips\\" + file_name,
+                "key": dst,
                 "text": text
                 })
-                
+
+            # File already converted
+            elif os.path.exists(dst):
+                data.append({
+                "key": dst,
+                "text": text
+                })
+            
+            else:
+                print("###### Source: " + src + " exists? " + str(os.path.exists(src)) + " Destination: " + dst + " exists? " + str(os.path.exists(dst)))
+                corrupted +=1
+       
     random.shuffle(data)
 
 
@@ -133,6 +140,8 @@ def main(args):
     print("###### Corrupted/Missing files skipped: " + corrupted)
     print("Done!")
 
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="""
     Utility script to convert commonvoice into wav and create the training and test json files for speechrecognition. """
@@ -145,10 +154,6 @@ if __name__ == "__main__":
     #                     help='percent of clips put into test.json instead of train.json')
     parser.add_argument('--save_json_path', type=str, default=None, required=True,
                         help='path to the dir where the json files are supposed to be saved')
-    parser.add_argument('--convert', default=True, action='store_true',
-                        help='says that the script should convert mp3 to wav')
-    parser.add_argument('--not-convert', dest='convert', action='store_false',
-                        help='says that the script should not convert mp3 to wav')
     parser.add_argument('--train_file', required=True, help='Path to train.tsv file')
     parser.add_argument('--test_file', required=True, help= 'Path to test.tsv file')
     parser.add_argument('--logging', default=False, help= 'Extra debugging data')
